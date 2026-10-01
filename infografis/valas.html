@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jenis Transaksi Valas: Spot dan Forward (Option, Swap, dan Futures)</title>
+  <meta name="description" content="Infografis edukatif jenis transaksi valuta asing: Spot dan transaksi berjangka (Forward, Swap, Futures, Option) dengan perbandingan garis waktu dan skenario riil.">
+  <meta name="theme-color" content="#1B1B1B">
+
+  <!-- Favicon: Inline SVG Data URI (Charcoal rounded square, panah melingkar teal & amber) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%20width='64'%20height='64'%3E%3Crect%20width='64'%20height='64'%20rx='16'%20fill='%231B1B1B'/%3E%3Cpath%20d='M20%2032%20A%2013%2013%200%200%201%2044%2023'%20fill='none'%20stroke='%235FD1C7'%20stroke-width='4.5'%20stroke-linecap='round'/%3E%3Cpolygon%20points='41,17%2048,22%2041,28'%20fill='%235FD1C7'/%3E%3Cpath%20d='M44%2032%20A%2013%2013%200%200%201%2020%2041'%20fill='none'%20stroke='%23F4B860'%20stroke-width='4.5'%20stroke-linecap='round'/%3E%3Cpolygon%20points='23,47%2016,42%2023,36'%20fill='%23F4B860'/%3E%3C/svg%3E">
+
+  <!-- Google Fonts: Inter Tight (Judul 800-900) & Inter (Isi 400-700) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@800;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. CSS CUSTOM PROPERTIES (:root)
+       Semua variabel warna, font, radius, dan spasi didefinisikan secara modular
+       ========================================================================== */
+    :root {
+      /* Latar Belakang & Panel */
+      --color-bg: #1B1B1B;
+      --color-panel-bg: #2D2D2D;
+      --color-footer-bg: #121212;
+
+      /* Garis Batas & Separator */
+      --color-border-light: #D9DDE3;
+      --color-border-subtle: rgba(217, 221, 227, 0.25);
+      --color-border-dim: rgba(217, 221, 227, 0.12);
+
+      /* Gradien Latar Belakang Ambient */
+      --color-grad-blue-gray: #3D5A73;
+      --color-grad-dark-green: #2F5D57;
+      --color-grad-blue: #244B73;
+      --color-grad-brown-amber: #7A5636;
+
+      /* Tipografi Warna (Teks Utama & Sekunder) */
+      --color-text-main: #FFFFFF;
+      --color-text-sub: rgba(255, 255, 255, 0.75);
+      --color-text-muted: rgba(255, 255, 255, 0.55);
+
+      /* Dua Warna Aksen Hemat */
+      --color-accent-teal: #5FD1C7;
+      --color-accent-amber: #F4B860;
+
+      /* Tipografi Font Family & Weight */
+      --font-heading: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-weight-heavy: 900;
+      --font-weight-bold: 800;
+      --font-weight-semibold: 600;
+      --font-weight-regular: 400;
+
+      /* Radius Sudut */
+      --radius-panel: clamp(32px, 3.5vw, 56px);
+      --radius-box: 20px;
+      --radius-pill: 9999px;
+      --radius-sm: 8px;
+
+      /* Skala Spasi */
+      --space-xs: 0.35rem;
+      --space-sm: 0.65rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2rem;
+
+      /* Layout */
+      --max-width-content: 1680px;
+    }
+
+    /* ==========================================================================
+       2. RESET DASAR & PENGATURAN GLOBAL
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      color-scheme: dark;
+    }
+
+    body {
+      background-color: var(--color-bg);
+      background-image:
+        radial-gradient(circle at 88% 8%, rgba(61, 90, 115, 0.42) 0%, transparent 40%),
+        radial-gradient(circle at 100% 0%, rgba(47, 93, 87, 0.38) 0%, transparent 35%),
+        radial-gradient(circle at 8% 88%, rgba(36, 75, 115, 0.32) 0%, transparent 42%),
+        radial-gradient(circle at 92% 94%, rgba(122, 86, 54, 0.32) 0%, transparent 38%);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      color: var(--color-text-main);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Pembungkus Halaman Utama */
+    .infographic-wrapper {
+      width: 100%;
+      max-width: var(--max-width-content);
+      margin: 0 auto;
+      padding: clamp(16px, 2vw, 32px);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      flex: 1;
+    }
+
+    /* Aksesibilitas: Fokus Keyboard */
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--color-accent-teal);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* Penanda Sumber (Superscript) */
+    sup {
+      color: var(--color-accent-teal);
+      font-size: 0.75em;
+      font-weight: var(--font-weight-semibold);
+      line-height: 0;
+      vertical-align: super;
+      padding-left: 0.15em;
+      letter-spacing: -0.02em;
+    }
+
+    /* Tipografi Judul Besar (h1 & h2) */
+    .header-title,
+    .col-section-title {
+      font-family: var(--font-heading);
+      font-weight: var(--font-weight-heavy);
+      text-transform: uppercase;
+      color: var(--color-text-main);
+      line-height: 0.95;
+      letter-spacing: -0.025em;
+      word-spacing: 0.08em;
+    }
+
+    /* ==========================================================================
+       3. BARIS 1 (HEADER): 3 KOLOM DESKTOP (Rasio ~1.1fr 1.5fr 1.1fr)
+       ========================================================================== */
+    .row-header {
+      display: grid;
+      grid-template-columns: 1.1fr 1.5fr 1.1fr;
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+
+    /* Subkolom A: Label, H1, Subjudul */
+    .header-branding {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .header-label {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-accent-teal);
+      margin-bottom: 0.25rem;
+    }
+
+    .header-title {
+      font-size: clamp(2rem, 3.2vw, 3.25rem);
+      margin-bottom: 0.35rem;
+    }
+
+    .header-subtitle {
+      font-family: var(--font-heading);
+      font-size: clamp(1rem, 1.4vw, 1.35rem);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-sub);
+      line-height: 1.25;
+    }
+
+    /* Subkolom B: Kotak Ide Utama */
+    .main-idea-box {
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-box);
+      background-color: rgba(45, 45, 45, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: clamp(1rem, 1.5vw, 1.5rem);
+      display: flex;
+      align-items: center;
+    }
+
+    .main-idea-text {
+      font-size: clamp(0.85rem, 1.05vw, 1rem);
+      line-height: 1.55;
+      color: var(--color-text-main);
+    }
+
+    /* Subkolom C: Kartu Garis Waktu Perbandingan */
+    .timeline-card {
+      background: rgba(45, 45, 45, 0.35);
+      border: 1px solid var(--color-border-dim);
+      border-radius: var(--radius-box);
+      padding: clamp(1rem, 1.5vw, 1.5rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .timeline-track {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      gap: 1rem;
+    }
+
+    .timeline-track::before {
+      content: "";
+      position: absolute;
+      top: 11px;
+      left: 12px;
+      right: 12px;
+      height: 2px;
+      background: linear-gradient(to right, var(--color-accent-teal) 0%, rgba(217, 221, 227, 0.3) 50%, var(--color-accent-amber) 100%);
+      z-index: 1;
+    }
+
+    .timeline-zone {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .timeline-marker {
+      width: 22px;
+      height: 22px;
+      border-radius: var(--radius-pill);
+      background-color: var(--color-bg);
+      border: 2.5px solid var(--color-accent-teal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.35rem;
+    }
+
+    .timeline-marker::after {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-pill);
+      background-color: var(--color-accent-teal);
+    }
+
+    .timeline-zone.zone-right .timeline-marker {
+      border-color: var(--color-accent-amber);
+    }
+
+    .timeline-zone.zone-right .timeline-marker::after {
+      background-color: var(--color-accent-amber);
+    }
+
+    .timeline-label {
+      font-size: clamp(0.78rem, 0.95vw, 0.88rem);
+      line-height: 1.4;
+      color: var(--color-text-main);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    /* ==========================================================================
+       4. BARIS 2 (KONTEN): 3 KOLOM DESKTOP (Rasio ~1fr 1.6fr 1.4fr)
+       gap 24px, align-items: start (kolom TIDAK dipaksa sama tinggi)
+       ========================================================================== */
+    .row-content {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr 1.4fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .content-column {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .col-section-title {
+      font-size: clamp(1.25rem, 1.8vw, 1.75rem);
+      margin-bottom: 0.35rem;
+      text-align: center;
+    }
+
+    .col-section-intro {
+      font-size: clamp(0.85rem, 1.05vw, 0.95rem);
+      color: var(--color-text-sub);
+      line-height: 1.45;
+      text-align: center;
+      margin-bottom: 0.85rem;
+    }
+
+    /* Panel Konten Utama */
+    .content-panel {
+      background-color: var(--color-panel-bg);
+      border: 2px solid var(--color-border-light);
+      border-radius: var(--radius-panel);
+      padding: clamp(1.25rem, 1.8vw, 1.75rem);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+      position: relative;
+    }
+
+    /* Judul Kolom (h3) & Ikon SVG 28px Berdampingan Sebaris di Tengah */
+    .column-header-group {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    .column-header-group::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 7.5%;
+      width: 85%;
+      height: 1px;
+      background-color: var(--color-border-light);
+      opacity: 0.5;
+    }
+
+    .col-icon {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+
+    .icon-teal {
+      stroke: var(--color-accent-teal);
+    }
+
+    .icon-amber {
+      stroke: var(--color-accent-amber);
+    }
+
+    .column-heading {
+      font-family: var(--font-heading);
+      font-size: clamp(1.1rem, 1.35vw, 1.35rem);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-main);
+      margin: 0;
+    }
+
+    .column-definition {
+      color: var(--color-text-main);
+      font-size: clamp(0.85rem, 1vw, 0.94rem);
+      line-height: 1.5;
+      margin-bottom: 0.75rem;
+    }
+
+    .column-points {
+      list-style-type: disc;
+      padding-left: 1.25rem;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .column-points li {
+      color: var(--color-text-sub);
+      font-size: clamp(0.82rem, 0.95vw, 0.9rem);
+      line-height: 1.45;
+    }
+
+    .column-points li::marker {
+      color: var(--color-border-light);
+    }
+
+    /* KOLOM 1: BAGIAN SPOT & CATATAN SYARIAH */
+    .col-spot {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    /* Perbaikan Panel Spot: tinggi otomatis sesuai isi, rata ATAS, tanpa ruang kosong besar */
+    .spot-panel {
+      height: auto;
+      min-height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .sharia-box {
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-box);
+      background-color: rgba(45, 45, 45, 0.35);
+      padding: clamp(0.75rem, 1.2vw, 1.15rem);
+    }
+
+    .sharia-text {
+      font-size: clamp(0.78rem, 0.9vw, 0.85rem);
+      line-height: 1.5;
+      color: var(--color-text-muted);
+      text-align: center;
+    }
+
+    /* KOLOM 2: BAGIAN TRANSAKSI BERJANGKA */
+    .col-berjangka {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .panel-caption {
+      font-size: clamp(0.8rem, 0.92vw, 0.88rem);
+      color: var(--color-text-sub);
+      text-align: center;
+      line-height: 1.4;
+      margin-bottom: 0.35rem;
+    }
+
+    .panel-two-cols {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: clamp(0.85rem, 1.3vw, 1.35rem);
+      align-items: stretch;
+      padding: clamp(1rem, 1.4vw, 1.35rem);
+    }
+
+    .column-divider {
+      background-color: var(--color-border-light);
+      opacity: 0.35;
+      margin: 0.5rem 0;
+      width: 1px;
+    }
+
+    .column-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* KOLOM 3: BAGIAN CONTOH RIIL AYRA */
+    .col-ayra {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .scenario-note {
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 0.35rem;
+    }
+
+    .ayra-panel {
+      padding: clamp(0.85rem, 1.3vw, 1.25rem);
+    }
+
+    .ayra-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .ayra-table th,
+    .ayra-table td {
+      padding: 0.55rem 0.65rem;
+      vertical-align: top;
+      line-height: 1.45;
+    }
+
+    .ayra-table thead th {
+      font-family: var(--font-heading);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-accent-teal);
+      font-size: clamp(0.82rem, 0.95vw, 0.92rem);
+      border-bottom: 2px solid var(--color-border-light);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding-bottom: 0.45rem;
+    }
+
+    .ayra-table thead th:last-child {
+      color: var(--color-accent-amber);
+    }
+
+    .ayra-table tbody tr {
+      border-bottom: 1px solid var(--color-border-dim);
+    }
+
+    .ayra-table tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    .ayra-table tbody th[scope="row"] {
+      font-family: var(--font-heading);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-main);
+      font-size: clamp(0.88rem, 1vw, 0.98rem);
+      white-space: nowrap;
+    }
+
+    .ayra-table td {
+      color: var(--color-text-sub);
+      font-size: clamp(0.78rem, 0.88vw, 0.86rem);
+    }
+
+    .ayra-table td.col-result {
+      color: var(--color-text-main);
+    }
+
+    /* ==========================================================================
+       5. BARIS 3: FOOTER DAFTAR SUMBER (Selebar Penuh, Latar #121212)
+       Grid auto-fit minmax(220px, 1fr)
+       ========================================================================== */
+    .row-footer {
+      background-color: var(--color-footer-bg);
+      border: 1px solid var(--color-border-dim);
+      border-radius: var(--radius-box);
+      padding: clamp(0.85rem, 1.5vw, 1.25rem);
+    }
+
+    .footer-heading {
+      font-family: var(--font-heading);
+      font-weight: var(--font-weight-bold);
+      font-size: clamp(0.85rem, 1vw, 0.95rem);
+      color: var(--color-text-main);
+      margin-bottom: 0.45rem;
+      letter-spacing: -0.02em;
+    }
+
+    .reference-list {
+      list-style-type: decimal;
+      padding-left: 1.15rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.85rem;
+    }
+
+    .reference-item {
+      font-size: 0.74rem;
+      line-height: 1.45;
+      color: var(--color-text-sub);
+    }
+
+    .reference-link {
+      color: var(--color-accent-teal);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      overflow-wrap: anywhere;
+      transition: color 0.15s ease-in-out;
+    }
+
+    .reference-link:hover {
+      color: #92e7df;
+    }
+
+    /* ==========================================================================
+       6. RESPONSIF DI BAWAH 1100PX (Satu Kolom Bertumpuk)
+       Urutan: header, ide utama, garis waktu, Spot, catatan syariah, Berjangka, Ayra, footer
+       ========================================================================== */
+    @media (max-width: 1099px) {
+      .row-header {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+
+      .row-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .timeline-track {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding-left: 2rem;
+      }
+
+      .timeline-track::before {
+        top: 11px;
+        bottom: 11px;
+        left: 11px;
+        right: auto;
+        width: 2px;
+        height: auto;
+        background: linear-gradient(to bottom, var(--color-accent-teal) 0%, rgba(217, 221, 227, 0.3) 50%, var(--color-accent-amber) 100%);
+      }
+
+      .timeline-marker {
+        position: absolute;
+        left: -2rem;
+        top: 0;
+      }
+    }
+
+    /* ==========================================================================
+       7. RESPONSIF DI BAWAH 720PX
+       Panel dua kolom menjadi 1 kolom, garis horizontal tipis, tabel Ayra jadi kartu
+       ========================================================================== */
+    @media (max-width: 719px) {
+      .infographic-wrapper {
+        padding: 1rem;
+        gap: 1.25rem;
+      }
+
+      .panel-two-cols {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+
+      .column-divider {
+        width: 85%;
+        height: 1px;
+        margin: 0.5rem auto;
+      }
+
+      /* Tabel Ayra menjadi kartu bertumpuk di layar kecil */
+      .ayra-table,
+      .ayra-table thead,
+      .ayra-table tbody,
+      .ayra-table th,
+      .ayra-table td,
+      .ayra-table tr {
+        display: block;
+      }
+
+      .ayra-table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+
+      .ayra-table tbody tr {
+        margin-bottom: 1rem;
+        border: 1px solid var(--color-border-subtle);
+        border-radius: 14px;
+        padding: 0.85rem;
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .ayra-table tbody th[scope="row"] {
+        padding: 0 0 0.35rem 0;
+        font-size: 1.1rem;
+        color: var(--color-accent-teal);
+        border-bottom: 1px solid var(--color-border-dim);
+        margin-bottom: 0.35rem;
+      }
+
+      .ayra-table td {
+        padding: 0.35rem 0;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+
+      .ayra-table td::before {
+        content: attr(data-label);
+        font-weight: var(--font-weight-bold);
+        font-size: 0.74rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--color-accent-teal);
+      }
+
+      .ayra-table td[data-label="Hasil"]::before {
+        color: var(--color-accent-amber);
+      }
+    }
+
+    /* ==========================================================================
+       8. MEDIA PRINT (A4 LANDSCAPE 1 HALAMAN)
+       ========================================================================== */
+    @media print {
+      @page {
+        size: A4 landscape;
+        margin: 0.6cm;
+      }
+
+      body {
+        background-color: var(--color-bg) !important;
+        background-image: none !important;
+        color: #FFFFFF !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+        font-size: 7.5pt;
+        line-height: 1.25;
+      }
+
+      .infographic-wrapper {
+        padding: 0;
+        gap: 0.35cm;
+      }
+
+      .row-header {
+        grid-template-columns: 1.1fr 1.5fr 1.1fr !important;
+        gap: 0.3cm !important;
+      }
+
+      .row-content {
+        grid-template-columns: 1fr 1.6fr 1.4fr !important;
+        gap: 0.3cm !important;
+        align-items: start !important;
+      }
+
+      .content-panel {
+        background-color: var(--color-panel-bg) !important;
+        border: 1px solid var(--color-border-light) !important;
+        border-radius: 12px !important;
+        padding: 0.3cm !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      .header-title {
+        font-size: 16pt;
+      }
+
+      .reference-link {
+        color: #FFFFFF !important;
+        text-decoration: none;
+      }
+    }
+
+    /* ==========================================================================
+       9. PREFERS-REDUCED-MOTION
+       ========================================================================== */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="infographic-wrapper">
+
+    <!-- ========================================================================
+         BARIS 1 (HEADER): 3 KOLOM DESKTOP
+         Kiri: Branding | Tengah: Ide Utama | Kanan: Garis Waktu
+         ======================================================================== -->
+    <header class="row-header">
+      <!-- 1a. Kiri: Label, H1, Subjudul -->
+      <div class="header-branding">
+        <p class="header-label">Infografis Valuta Asing</p>
+        <h1 class="header-title">JENIS TRANSAKSI VALAS</h1>
+        <p class="header-subtitle">Spot dan Forward (Option, Swap, dan Futures)</p>
+      </div>
+
+      <!-- 1b. Tengah: Kotak Ide Utama -->
+      <div class="main-idea-box">
+        <p class="main-idea-text">
+          Semua transaksi ini sama-sama menukar mata uang. Bedanya ada di KAPAN uang diserahkan dan SEBERAPA FLEKSIBEL kontraknya. Spot itu sekarang. Forward dan turunannya itu nanti, tapi kurs sudah dikunci dari sekarang.
+        </p>
+      </div>
+
+      <!-- 1c. Kanan: Kartu Garis Waktu Perbandingan -->
+      <div class="timeline-card" role="region" aria-label="Garis waktu perbandingan penyelesaian transaksi valas: Spot versus Berjangka">
+        <div class="timeline-track">
+          <!-- Titik Kiri: Hari Ini (Spot) -->
+          <div class="timeline-zone zone-left">
+            <div class="timeline-marker" aria-hidden="true"></div>
+            <p class="timeline-label">Hari ini: Spot (serah terima paling lama sekitar 2 hari kerja)</p>
+          </div>
+
+          <!-- Titik Kanan: Nanti (Berjangka) -->
+          <div class="timeline-zone zone-right">
+            <div class="timeline-marker" aria-hidden="true"></div>
+            <p class="timeline-label">Nanti: Forward, Swap, Futures, Option (misalnya 1, 3, atau 6 bulan)</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ========================================================================
+         BARIS 2 (KONTEN): 3 KOLOM DESKTOP
+         Kolom 1: Spot & Syariah | Kolom 2: Berjangka | Kolom 3: Skenario Ayra
+         ======================================================================== -->
+    <main class="row-content">
+
+      <!-- ====================================================================
+           KOLOM 1: BAGIAN SPOT (Tinggi otomatis sesuai isi, rata atas)
+           ==================================================================== -->
+      <section class="content-column col-spot" aria-labelledby="heading-spot">
+        <h2 id="heading-spot" class="col-section-title">TRANSAKSI SPOT</h2>
+        <p class="col-section-intro">Transaksi Spot adalah transaksi valas yang diselesaikan sekarang, tanpa menunggu lama.</p>
+
+        <!-- Panel Transaksi Spot -->
+        <article class="content-panel spot-panel">
+          <div class="column-header-group">
+            <!-- Ikon Jam (Spot) -->
+            <svg class="col-icon icon-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"/>
+              <polyline points="12 7 12 12 15 15"/>
+            </svg>
+            <h3 class="column-heading">Transaksi Spot</h3>
+          </div>
+          <p class="column-definition">Menukar valas sekarang juga dengan kurs yang sudah disepakati. Serah terima paling lama sekitar dua hari kerja.<sup>[1]</sup><sup>[2]</sup></p>
+          <ul class="column-points">
+            <li>Kurs disepakati saat transaksi terjadi</li>
+            <li>Serah terima cepat, maksimal sekitar dua hari kerja</li>
+            <li>Contoh umum: menukar gaji dari luar negeri di bank</li>
+          </ul>
+        </article>
+
+        <!-- Kotak Catatan Ekonomi Syariah -->
+        <aside class="sharia-box" aria-label="Catatan sudut pandang ekonomi syariah">
+          <p class="sharia-text">
+            Dari sisi ekonomi syariah, menurut kajian Umam (2020), spot dibolehkan, sedangkan forward, swap, dan opsi dianggap mengandung unsur spekulasi, meski sebagian ulama membolehkan forward untuk hedging.<sup>[1]</sup>
+          </p>
+        </aside>
+      </section>
+
+      <!-- ====================================================================
+           KOLOM 2: BAGIAN TRANSAKSI BERJANGKA
+           ==================================================================== -->
+      <section class="content-column col-berjangka" aria-labelledby="heading-berjangka">
+        <h2 id="heading-berjangka" class="col-section-title">TRANSAKSI BERJANGKA</h2>
+
+        <!-- Panel 1: Forward & Swap (OTC) -->
+        <p class="panel-caption">Transaksi Forward &amp; Swap termasuk dua bentuk transaksi berjangka yang diperdagangkan langsung antar pihak (over-the-counter).</p>
+        <div class="content-panel panel-two-cols">
+          <!-- Kolom Kiri: Transaksi Forward -->
+          <article class="column-content">
+            <div class="column-header-group">
+              <!-- Ikon Gembok (Forward) -->
+              <svg class="col-icon icon-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="5" y="11" width="14" height="10" rx="2"/>
+                <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+              </svg>
+              <h3 class="column-heading">Transaksi Forward</h3>
+            </div>
+            <p class="column-definition">Kesepakatan jual-beli valas dengan kurs ditentukan sekarang, tetapi penyerahan dana dilakukan di masa depan (lebih dari 2 hari kerja, misalnya 1, 3, atau 6 bulan).<sup>[1]</sup><sup>[2]</sup></p>
+            <ul class="column-points">
+              <li>Jumlah dan tanggal bisa dinegosiasikan<sup>[3]</sup></li>
+              <li>Transaksi langsung antar pihak (OTC)<sup>[3]</sup></li>
+              <li>Umum dipakai untuk lindung nilai (hedging)<sup>[1]</sup><sup>[3]</sup></li>
+            </ul>
+          </article>
+
+          <!-- Garis Pemisah Vertikal -->
+          <div class="column-divider" aria-hidden="true"></div>
+
+          <!-- Kolom Kanan: Transaksi Swap -->
+          <article class="column-content">
+            <div class="column-header-group">
+              <!-- Ikon Dua Panah Horizontal (Swap) -->
+              <svg class="col-icon icon-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 8h16M16 4l4 4-4 4"/>
+                <path d="M20 16H4M8 12l-4 4 4 4"/>
+              </svg>
+              <h3 class="column-heading">Transaksi Swap</h3>
+            </div>
+            <p class="column-definition">Membeli dan menjual valas yang sama secara bersamaan, dengan dua tanggal penyerahan yang berbeda.<sup>[1]</sup><sup>[2]</sup></p>
+            <ul class="column-points">
+              <li>Bisa beli spot lalu jual forward, atau sebaliknya<sup>[1]</sup></li>
+              <li>Kurs yang diperjanjikan tetap selama kontrak<sup>[1]</sup></li>
+              <li>Membantu menghindari kerugian akibat selisih kurs<sup>[1]</sup></li>
+            </ul>
+          </article>
+        </div>
+
+        <!-- Panel 2: Futures & Option (Terstruktur / Bursa) -->
+        <p class="panel-caption">Transaksi Futures &amp; Option termasuk dua bentuk transaksi berjangka dengan kontrak yang lebih terstruktur.</p>
+        <div class="content-panel panel-two-cols">
+          <!-- Kolom Kiri: Transaksi Futures -->
+          <article class="column-content">
+            <div class="column-header-group">
+              <!-- Ikon Bursa Efek (Futures) -->
+              <svg class="col-icon icon-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 9l9-6 9 6"/>
+                <line x1="2" y1="9" x2="22" y2="9"/>
+                <line x1="5" y1="9" x2="5" y2="19"/>
+                <line x1="12" y1="9" x2="12" y2="19"/>
+                <line x1="19" y1="9" x2="19" y2="19"/>
+                <line x1="2" y1="19" x2="22" y2="19"/>
+                <line x1="1" y1="22" x2="23" y2="22"/>
+              </svg>
+              <h3 class="column-heading">Transaksi Futures</h3>
+            </div>
+            <p class="column-definition">Serupa forward, tetapi ukuran kontrak dan tanggal jatuh temponya baku, dan diperdagangkan di bursa dengan lembaga kliring (clearinghouse).<sup>[3]</sup><sup>[4]</sup></p>
+            <ul class="column-points">
+              <li>Peserta tidak perlu saling mengecek kemampuan bayar<sup>[3]</sup></li>
+              <li>Wajib setor margin, untung-rugi diselesaikan harian di bursa<sup>[3]</sup><sup>[5]</sup></li>
+              <li>Fleksibilitas rendah, perusahaan lebih sering memilih forward untuk hedging<sup>[3]</sup></li>
+            </ul>
+          </article>
+
+          <!-- Garis Pemisah Vertikal -->
+          <div class="column-divider" aria-hidden="true"></div>
+
+          <!-- Kolom Kanan: Transaksi Option -->
+          <article class="column-content">
+            <div class="column-header-group">
+              <!-- Ikon Panah Bercabang / Pilihan (Option) -->
+              <svg class="col-icon icon-amber" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="4" y1="12" x2="10" y2="12"/>
+                <path d="M10 12c3 0 4.5-5 8-5h2M17 4l3 3-3 3"/>
+                <path d="M10 12c3 0 4.5 5 8 5h2M17 14l3 3-3 3"/>
+              </svg>
+              <h3 class="column-heading">Transaksi Option</h3>
+            </div>
+            <p class="column-definition">Memberi hak, bukan kewajiban, untuk membeli (call) atau menjual (put) valas pada kurs tertentu (strike price) dalam periode tertentu.<sup>[1]</sup><sup>[2]</sup></p>
+            <ul class="column-points">
+              <li>Pembeli membayar premium untuk mendapatkan hak<sup>[1]</sup></li>
+              <li>Pembeli bebas memilih untuk mengeksekusi atau tidak<sup>[1]</sup></li>
+              <li>Kerugian maksimal pembeli sebesar premium</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           KOLOM 3: BAGIAN CONTOH RIIL (AYRA)
+           ==================================================================== -->
+      <section class="content-column col-ayra" aria-labelledby="heading-scenario">
+        <h2 id="heading-scenario" class="col-section-title">SATU TOKOH, LIMA SKENARIO: AYRA</h2>
+        <p class="scenario-note">Angka kurs hanya ilustrasi (Rp16.000 per USD), bukan kurs sebenarnya.</p>
+
+        <div class="content-panel ayra-panel">
+          <table class="ayra-table">
+            <thead>
+              <tr>
+                <th scope="col" style="width: 18%;">Jenis</th>
+                <th scope="col" style="width: 48%;">Skenario Ayra</th>
+                <th scope="col" style="width: 34%;">Hasil</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Baris 1: Spot -->
+              <tr>
+                <th scope="row">Spot</th>
+                <td data-label="Skenario Ayra">1 Oktober, Ayra menukar USD 1.000 di kurs Rp16.000.</td>
+                <td data-label="Hasil" class="col-result">Bayar Rp16.000.000 dan dolar diterima hari itu juga.</td>
+              </tr>
+
+              <!-- Baris 2: Forward -->
+              <tr>
+                <th scope="row">Forward</th>
+                <td data-label="Skenario Ayra">Ayra importir yang harus membayar supplier USD 1.000 pada 1 Januari. Ia mengunci kurs Rp16.000 lewat bank.</td>
+                <td data-label="Hasil" class="col-result">Kalau kurs pasar naik jadi Rp16.500, Ayra tetap bayar Rp16.000.000 (hemat Rp500.000). Kalau kurs turun, ia tetap terikat kurs lama.</td>
+              </tr>
+
+              <!-- Baris 3: Swap -->
+              <tr>
+                <th scope="row">Swap</th>
+                <td data-label="Skenario Ayra">1 Oktober, Ayra membeli USD 1.000 secara spot, sekaligus sepakat menjual kembali USD 1.000 pada 1 Januari di kurs forward.</td>
+                <td data-label="Hasil" class="col-result">Kebutuhan dolar terpenuhi sementara dan kurs pengembaliannya sudah pasti.</td>
+              </tr>
+
+              <!-- Baris 4: Option -->
+              <tr>
+                <th scope="row">Option</th>
+                <td data-label="Skenario Ayra">Ayra membayar premium Rp200.000 untuk hak membeli USD 1.000 di kurs Rp16.000 sampai 1 Januari.</td>
+                <td data-label="Hasil" class="col-result">Kalau kurs naik, hak dipakai. Kalau kurs turun, Ayra membeli di pasar dan rugi hanya sebesar premium.</td>
+              </tr>
+
+              <!-- Baris 5: Futures -->
+              <tr>
+                <th scope="row">Futures</th>
+                <td data-label="Skenario Ayra">Seandainya Ayra memakai bursa, ia harus mengikuti ukuran baku, misalnya kontrak euro futures 125.000 EUR dengan jatuh tempo Maret, Juni, September, atau Desember.<sup>[4]</sup></td>
+                <td data-label="Hasil" class="col-result">Ukuran dan tanggal baku, tidak bisa disesuaikan seperti forward, dan Ayra perlu setor margin.<sup>[3]</sup><sup>[4]</sup></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ========================================================================
+         BARIS 3: FOOTER DAFTAR SUMBER (Selebar Penuh, Grid Auto-Fit)
+         ======================================================================== -->
+    <footer class="row-footer">
+      <h2 class="footer-heading">Sumber dan Referensi</h2>
+      <ol class="reference-list">
+        <li class="reference-item">
+          Umam, K. (2020). Jual Beli Valuta Asing dalam Ekonomi Islam. Syi'ar Iqtishadi: Journal of Islamic Economics, Finance and Banking, 4(2).
+          <br>
+          <a class="reference-link" href="https://jurnal.untirta.ac.id/index.php/JIEc/article/view/9842" target="_blank" rel="noopener noreferrer">https://jurnal.untirta.ac.id/index.php/JIEc/article/view/9842</a>
+        </li>
+        <li class="reference-item">
+          Bank Indonesia. Metadata Indikator Pasar Uang (definisi transaksi spot, forward, swap, dan option).
+          <br>
+          <a class="reference-link" href="https://www.bi.go.id/id/statistik/Metadata/SSKI/Documents/11_Metadata_Indikator_Pasar_Uang.pdf" target="_blank" rel="noopener noreferrer">https://www.bi.go.id/id/statistik/Metadata/SSKI/Documents/11_Metadata_Indikator_Pasar_Uang.pdf</a>
+        </li>
+        <li class="reference-item">
+          Kantox. Currency Futures (glosarium).
+          <br>
+          <a class="reference-link" href="https://www.kantox.com/glossary/currency-futures" target="_blank" rel="noopener noreferrer">https://www.kantox.com/glossary/currency-futures</a>
+        </li>
+        <li class="reference-item">
+          Merk Funds. What is the difference between forward currency contracts and futures?
+          <br>
+          <a class="reference-link" href="https://legacy.merkfunds.com/currency-asset-class/currencies-unplugged/difference-forwards-futures.html" target="_blank" rel="noopener noreferrer">https://legacy.merkfunds.com/currency-asset-class/currencies-unplugged/difference-forwards-futures.html</a>
+        </li>
+        <li class="reference-item">
+          Finder. Futures contract vs forward contract.
+          <br>
+          <a class="reference-link" href="https://www.finder.com/international-money-transfers/futures-contract-vs-forward-contract" target="_blank" rel="noopener noreferrer">https://www.finder.com/international-money-transfers/futures-contract-vs-forward-contract</a>
+        </li>
+      </ol>
+    </footer>
+
+  </div>
+
+</body>
+</html>
