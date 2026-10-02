@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CMS Pengelola Portfolio - Bima Arya Dewa</title>
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23141416' stroke='%232E2E30' stroke-width='4'/><text x='50%' y='55%' dominant-baseline='central' text-anchor='middle' fill='%23F2F2F0' font-family='sans-serif' font-size='46' font-weight='bold' letter-spacing='-1.5'>Dv</text></svg>" />
+
+  <!-- Google Fonts: Space Grotesk, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Inter"', 'sans-serif'],
+            display: ['"Space Grotesk"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            background: '#0B0B0C',
+            surface: '#141416',
+            card: '#1C1C1E',
+            border: '#2E2E30',
+            foreground: '#F2F2F0',
+            muted: '#9A9A9E',
+            accent: '#A0938A',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0B0B0C;
+      color: #F2F2F0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Form Input Flat & Solid */
+    .admin-input {
+      width: 100%;
+      background: #141416;
+      border: 1px solid #2E2E30;
+      border-radius: 0.375rem;
+      padding: 0.625rem 0.875rem;
+      color: #F2F2F0;
+      font-size: 0.875rem;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .admin-input:focus {
+      border-color: #F2F2F0;
+    }
+
+    .admin-label {
+      display: block;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: #F2F2F0;
+      margin-bottom: 0.375rem;
+    }
+
+    .admin-hint {
+      display: block;
+      font-size: 0.75rem;
+      color: #9A9A9E;
+      margin-top: 0.25rem;
+    }
+
+    /* Nav Button Solid */
+    .sidebar-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.625rem 0.875rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #9A9A9E;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+      width: 100%;
+      text-align: left;
+    }
+
+    .sidebar-btn:hover {
+      color: #F2F2F0;
+      background: #18181C;
+      border-color: #2E2E30;
+    }
+
+    .sidebar-btn.active {
+      color: #0B0B0C;
+      background: #F2F2F0;
+      border-color: #F2F2F0;
+      font-weight: 600;
+    }
+
+    .panel-box {
+      background: #141416;
+      border: 1px solid #2E2E30;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+    }
+
+    /* Toast Notification */
+    #adminToast {
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.2s ease;
+    }
+
+    #adminToast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-[#0B0B0C] font-sans text-[#F2F2F0] antialiased">
+
+  <!-- ================= LAYOUT SPLIT-PANE ================= -->
+  <div class="flex min-h-screen">
+
+    <!-- SIDEBAR KIRI (Tetap) -->
+    <aside class="w-64 border-r border-[#2E2E30] bg-[#0B0B0C] flex flex-col justify-between p-5 shrink-0 fixed inset-y-0 left-0 z-40 overflow-y-auto">
+      <div class="space-y-6">
+        
+        <!-- Favicon Logo & Identitas -->
+        <div class="flex items-center gap-3 pb-5 border-b border-[#2E2E30]">
+          <!-- SVG Favicon Besar -->
+          <svg class="w-10 h-10 shrink-0" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" rx="22" fill="#141416" stroke="#2E2E30" stroke-width="4"/>
+            <text x="50%" y="55%" dominant-baseline="central" text-anchor="middle" fill="#F2F2F0" font-family="sans-serif" font-size="46" font-weight="bold" letter-spacing="-1.5">Dv</text>
+          </svg>
+          <div>
+            <h1 class="font-display font-bold text-base text-white leading-tight">Pengelola Portofolio</h1>
+            <p class="text-xs text-muted">Panel Editor Web</p>
+          </div>
+        </div>
+
+        <!-- Indikator Status -->
+        <div class="px-1">
+          <p id="saveStatus" class="text-xs text-emerald-400 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            Draft tersimpan
+          </p>
+        </div>
+
+        <!-- Menu Navigasi Sidebar -->
+        <nav class="space-y-1">
+          <button type="button" onclick="switchTab('profile')" class="sidebar-btn active" id="tab-btn-profile">
+            <span>Profil Utama</span>
+          </button>
+          <button type="button" onclick="switchTab('education')" class="sidebar-btn" id="tab-btn-education">
+            <span>Pendidikan & Statistik</span>
+          </button>
+          <button type="button" onclick="switchTab('expertise')" class="sidebar-btn" id="tab-btn-expertise">
+            <span>Keahlian & Skills</span>
+          </button>
+          <button type="button" onclick="switchTab('achievements')" class="sidebar-btn" id="tab-btn-achievements">
+            <span>Prestasi & Pengalaman</span>
+          </button>
+          <button type="button" onclick="switchTab('gallery')" class="sidebar-btn" id="tab-btn-gallery">
+            <span>Galeri Foto</span>
+          </button>
+          <button type="button" onclick="switchTab('contact')" class="sidebar-btn" id="tab-btn-contact">
+            <span>Informasi Kontak</span>
+          </button>
+          <button type="button" onclick="switchTab('music')" class="sidebar-btn" id="tab-btn-music">
+            <span>Pemutar Musik</span>
+          </button>
+          <div class="my-2 border-t border-[#2E2E30]"></div>
+          <button type="button" onclick="switchTab('rawjson')" class="sidebar-btn font-mono text-xs" id="tab-btn-rawjson">
+            <span>Editor Raw JSON</span>
+          </button>
+        </nav>
+
+      </div>
+
+      <!-- Tombol Akses Cepat & Preview -->
+      <div class="pt-4 border-t border-[#2E2E30] space-y-2">
+        <a href="bio.html" target="_blank"
+          class="flex items-center justify-center gap-2 w-full py-2 px-3 rounded border border-[#2E2E30] bg-[#141416] text-xs font-medium text-white hover:border-[#F2F2F0] transition-colors">
+          <span>Buka Website Preview</span>
+        </a>
+        <button type="button" onclick="confirmReset()"
+          class="w-full py-2 px-3 rounded border border-[#2E2E30] bg-[#141416] text-xs font-medium text-muted hover:text-red-400 hover:border-red-900 transition-colors text-center">
+          Reset ke Data Asli
+        </button>
+      </div>
+    </aside>
+
+    <!-- AREA KONTEN KANAN -->
+    <div class="flex-1 ml-64 flex flex-col min-h-screen bg-[#141416]">
+      
+      <!-- Top Action Bar (Sticky) -->
+      <header class="sticky top-0 z-30 bg-[#0B0B0C] border-b border-[#2E2E30] px-8 py-4 flex items-center justify-between">
+        <h2 id="activeTabTitle" class="font-display font-semibold text-lg text-white">Profil Utama</h2>
+
+        <div class="flex items-center gap-3">
+          <!-- Import JSON -->
+          <label for="importFileInput"
+            class="cursor-pointer py-2 px-4 rounded border border-[#2E2E30] bg-[#141416] text-xs font-medium text-white hover:border-[#F2F2F0] transition-colors">
+            <span>Impor JSON</span>
+            <input type="file" id="importFileInput" accept=".json" class="hidden" onchange="importJSONFile(event)" />
+          </label>
+
+          <!-- Download JSON -->
+          <button type="button" onclick="downloadJSON()"
+            class="py-2 px-4 rounded bg-[#F2F2F0] text-[#0B0B0C] text-xs font-semibold hover:bg-white transition-colors">
+            Unduh Data (content.json)
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Form Area -->
+      <main class="p-8 flex-1 max-w-5xl">
+
+        <!-- 1. TAB: PROFIL UTAMA -->
+        <section id="panel-profile" class="space-y-6">
+          <div class="panel-box">
+            <h3 class="font-display font-semibold text-base text-white mb-4">Informasi Diri</h3>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label class="admin-label">Nama Lengkap</label>
+                <input type="text" id="prof-name" class="admin-input" oninput="updateField('profile.name', this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Monogram Logo (1-2 Huruf)</label>
+                <input type="text" id="prof-monogram" class="admin-input font-mono" maxlength="3" oninput="updateField('profile.monogram', this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Peran / Jabatan</label>
+                <input type="text" id="prof-role" class="admin-input" oninput="updateField('profile.role', this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Status Ketersediaan</label>
+                <input type="text" id="prof-statusBadge" class="admin-input" oninput="updateField('profile.statusBadge', this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Program Studi / Jurusan</label>
+                <input type="text" id="prof-field" class="admin-input" oninput="updateField('profile.field', this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Semester Saat Ini</label>
+                <input type="text" id="prof-semester" class="admin-input" oninput="updateField('profile.semester', this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">IPK Terakhir</label>
+                <input type="text" id="prof-gpa" class="admin-input font-mono" oninput="updateField('profile.gpa', this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Lokasi</label>
+                <input type="text" id="prof-location" class="admin-input" oninput="updateField('profile.location', this.value)" />
+              </div>
+              <div class="sm:col-span-2">
+                <label class="admin-label">Path Foto Profil (Avatar)</label>
+                <div class="flex gap-3 items-center">
+                  <input type="text" id="prof-avatar" class="admin-input font-mono text-xs" oninput="updateAvatarPreview(this.value)" />
+                  <img id="avatarPreview" src="" alt="Pratinjau Foto" class="w-10 h-10 object-cover rounded border border-[#2E2E30] bg-[#0B0B0C] shrink-0" />
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <label class="admin-label">Ringkasan Singkat (Footer)</label>
+              <textarea id="prof-shortBio" rows="2" class="admin-input" oninput="updateField('profile.shortBio', this.value)"></textarea>
+            </div>
+
+            <div class="mt-4">
+              <label class="admin-label">Deskripsi Lengkap Bio (Hero)</label>
+              <textarea id="prof-about" rows="5" class="admin-input leading-relaxed" oninput="updateField('profile.about', this.value)"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. TAB: PENDIDIKAN & STATISTIK -->
+        <section id="panel-education" class="space-y-6 hidden">
+          <div class="panel-box">
+            <h3 class="font-display font-semibold text-base text-white mb-4">Angka Statistik</h3>
+            <div class="grid gap-4 sm:grid-cols-4">
+              <div>
+                <label class="admin-label">Total Semester</label>
+                <input type="number" id="stats-semesters" class="admin-input font-mono" oninput="updateField('stats.semesters', +this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Jumlah Sertifikat</label>
+                <input type="number" id="stats-certificates" class="admin-input font-mono" oninput="updateField('stats.certificates', +this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Skor TOEIC</label>
+                <input type="number" id="stats-toeicScore" class="admin-input font-mono" oninput="updateField('stats.toeicScore', +this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Area Keahlian</label>
+                <input type="text" id="stats-skillAreas" class="admin-input font-mono" oninput="updateField('stats.skillAreas', this.value)" />
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-box">
+            <h3 class="font-display font-semibold text-base text-white mb-4">Detail Institusi Pendidikan</h3>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label class="admin-label">Nama Kampus / Institusi</label>
+                <input type="text" id="edu-institution" class="admin-input" oninput="updateField('education.institution', this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Program Pendidikan</label>
+                <input type="text" id="edu-program" class="admin-input" oninput="updateField('education.program', this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Label Semester</label>
+                <input type="text" id="edu-semesterBadge" class="admin-input" oninput="updateField('education.semesterBadge', this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Label Periode</label>
+                <input type="text" id="edu-periodBadge" class="admin-input font-mono" oninput="updateField('education.periodBadge', this.value)" />
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-box">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-display font-semibold text-base text-white">Mata Kuliah Relevan</h3>
+              <button type="button" onclick="addCourseworkItem()" class="py-1 px-3 rounded border border-[#2E2E30] bg-[#141416] text-xs font-medium text-white hover:border-[#F2F2F0]">
+                + Tambah Mata Kuliah
+              </button>
+            </div>
+            <div id="courseworkListContainer" class="space-y-2"></div>
+          </div>
+        </section>
+
+        <!-- 3. TAB: KEAHLIAN & SKILLS -->
+        <section id="panel-expertise" class="space-y-6 hidden">
+          <div class="panel-box">
+            <h3 class="font-display font-semibold text-base text-white mb-4">Domain Utama</h3>
+            <div id="domainsContainer" class="space-y-6"></div>
+          </div>
+
+          <div class="panel-box">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-display font-semibold text-base text-white">Kemampuan Teknis (%)</h3>
+              <button type="button" onclick="addTechProficiencyItem()" class="py-1 px-3 rounded border border-[#2E2E30] bg-[#141416] text-xs font-medium text-white hover:border-[#F2F2F0]">
+                + Tambah Skill
+              </button>
+            </div>
+            <div id="techProfContainer" class="space-y-2"></div>
+          </div>
+
+          <div class="grid gap-6 md:grid-cols-2">
+            <div class="panel-box">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-display font-semibold text-base text-white">Sertifikasi</h3>
+                <button type="button" onclick="addCertItem()" class="py-1 px-3 rounded border border-[#2E2E30] bg-[#141416] text-xs font-medium text-white hover:border-[#F2F2F0]">
+                  + Tambah
+                </button>
+              </div>
+              <div id="certsContainer" class="space-y-3"></div>
+            </div>
+
+            <div class="panel-box">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-display font-semibold text-base text-white">Bahasa</h3>
+                <button type="button" onclick="addLangItem()" class="py-1 px-3 rounded border border-[#2E2E30] bg-[#141416] text-xs font-medium text-white hover:border-[#F2F2F0]">
+                  + Tambah
+                </button>
+              </div>
+              <div id="langsContainer" class="space-y-3"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. TAB: PRESTASI & PENGALAMAN -->
+        <section id="panel-achievements" class="space-y-6 hidden">
+          <div class="panel-box">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h3 class="font-display font-semibold text-base text-white">Daftar Prestasi & Sertifikasi</h3>
+                <p class="text-xs text-muted">Riwayat kompetisi dan penghargaan yang diraih.</p>
+              </div>
+              <button type="button" onclick="addAchievementItem()" class="py-2 px-4 rounded bg-[#F2F2F0] text-[#0B0B0C] text-xs font-semibold hover:bg-white">
+                + Tambah Prestasi
+              </button>
+            </div>
+
+            <div id="achievementsListContainer" class="space-y-4"></div>
+          </div>
+
+          <div class="panel-box">
+            <h3 class="font-display font-semibold text-base text-white mb-4">Pengumuman Kesiapan Magang</h3>
+            <div class="space-y-4">
+              <div>
+                <label class="admin-label">Judul Banner</label>
+                <input type="text" id="ach-internTitle" class="admin-input" oninput="updateField('achievements.internship.title', this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Deskripsi Banner</label>
+                <textarea id="ach-internDesc" rows="3" class="admin-input" oninput="updateField('achievements.internship.description', this.value)"></textarea>
+              </div>
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label class="admin-label">Teks Tombol</label>
+                  <input type="text" id="ach-internCtaText" class="admin-input" oninput="updateField('achievements.internship.ctaText', this.value)" />
+                </div>
+                <div>
+                  <label class="admin-label">Tautan Tombol (Href)</label>
+                  <input type="text" id="ach-internCtaLink" class="admin-input font-mono text-xs" oninput="updateField('achievements.internship.ctaLink', this.value)" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. TAB: GALERI FOTO -->
+        <section id="panel-gallery" class="space-y-6 hidden">
+          <div class="panel-box">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h3 class="font-display font-semibold text-base text-white">Foto Galeri & Proyek</h3>
+                <p class="text-xs text-muted">Daftar foto yang muncul pada grid galeri.</p>
+              </div>
+              <button type="button" onclick="addGalleryItem()" class="py-2 px-4 rounded bg-[#F2F2F0] text-[#0B0B0C] text-xs font-semibold hover:bg-white">
+                + Tambah Foto
+              </button>
+            </div>
+
+            <div id="galleryListContainer" class="grid gap-4 sm:grid-cols-2"></div>
+          </div>
+        </section>
+
+        <!-- 6. TAB: INFORMASI KONTAK -->
+        <section id="panel-contact" class="space-y-6 hidden">
+          <div class="panel-box">
+            <h3 class="font-display font-semibold text-base text-white mb-4">Informasi Kontak & Sosial</h3>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label class="admin-label">Nomor Telepon (Tampilan)</label>
+                <input type="text" id="cont-phone" class="admin-input" oninput="updateContactPhone(this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Tautan Telepon (tel:+62...)</label>
+                <input type="text" id="cont-phoneTel" class="admin-input font-mono text-xs" oninput="updateField('contact.phoneTel', this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Alamat Email (Tampilan)</label>
+                <input type="email" id="cont-email" class="admin-input" oninput="updateContactEmail(this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Tautan Email (mailto:...)</label>
+                <input type="text" id="cont-emailMailto" class="admin-input font-mono text-xs" oninput="updateField('contact.emailMailto', this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Lokasi</label>
+                <input type="text" id="cont-location" class="admin-input" oninput="updateField('contact.location', this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Status Ketersediaan</label>
+                <input type="text" id="cont-status" class="admin-input" oninput="updateField('contact.status', this.value)" />
+              </div>
+              <div>
+                <label class="admin-label">Waktu Respons (Response Time)</label>
+                <input type="text" id="cont-responseTime" class="admin-input" oninput="updateField('contact.responseTime', this.value)" />
+              </div>
+            </div>
+
+            <div class="mt-4 p-3.5 rounded border border-[#2E2E30] bg-[#0B0B0C] flex items-start gap-3">
+              <span class="text-xs text-[#F2F2F0] font-mono px-1.5 py-0.5 rounded bg-[#1C1C1E] border border-white/10 shrink-0">Info Form</span>
+              <p class="text-xs text-muted leading-relaxed">
+                Pesan dari formulir di halaman Kontak (<code class="text-[#F2F2F0]">contact.html</code>) otomatis dikirimkan langsung ke alamat email di atas via layanan FormSubmit.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. TAB: PEMUTAR MUSIK -->
+        <section id="panel-music" class="space-y-6 hidden">
+          <div class="panel-box">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h3 class="font-display font-semibold text-base text-white">Playlist Musik Latar</h3>
+                <p class="text-xs text-muted">Daftar lagu yang diputar pada pemutar audio di web.</p>
+              </div>
+              <button type="button" onclick="addPlaylistItem()" class="py-2 px-4 rounded bg-[#F2F2F0] text-[#0B0B0C] text-xs font-semibold hover:bg-white">
+                + Tambah Lagu
+              </button>
+            </div>
+
+            <div id="playlistContainer" class="space-y-4"></div>
+          </div>
+        </section>
+
+        <!-- 8. TAB: RAW JSON -->
+        <section id="panel-rawjson" class="space-y-6 hidden">
+          <div class="panel-box">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-display font-semibold text-base text-white">Data Raw JSON</h3>
+              <div class="flex gap-2">
+                <button type="button" onclick="copyRawJSON()" class="py-1 px-3 rounded border border-[#2E2E30] bg-[#141416] text-xs font-medium text-white hover:border-[#F2F2F0]">
+                  Salin JSON
+                </button>
+                <button type="button" onclick="applyRawJSON()" class="py-1 px-3 rounded bg-[#F2F2F0] text-[#0B0B0C] text-xs font-semibold hover:bg-white">
+                  Terapkan Perubahan
+                </button>
+              </div>
+            </div>
+            <textarea id="rawJsonTextarea" rows="22" spellcheck="false"
+              class="w-full rounded border border-[#2E2E30] bg-[#0B0B0C] p-4 font-mono text-xs text-[#F2F2F0] outline-none focus:border-[#F2F2F0] leading-relaxed"></textarea>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="adminToast" class="fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded border border-[#2E2E30] bg-[#0B0B0C] px-4 py-3 shadow-xl">
+    <div id="toastIcon" class="w-2 h-2 rounded-full bg-emerald-400"></div>
+    <span id="toastMsg" class="text-xs font-medium text-white">Draft tersimpan</span>
+  </div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script>
+    const DRAFT_KEY = 'cms_draft_content';
+    const DATA_URL = 'data/content.json';
+
+    let CMS_DATA = {};
+    let saveTimeout = null;
+
+    // Map judul tab
+    const tabTitles = {
+      profile: 'Profil Utama',
+      education: 'Pendidikan & Statistik',
+      expertise: 'Keahlian & Skills',
+      achievements: 'Prestasi & Pengalaman',
+      gallery: 'Galeri Foto',
+      contact: 'Informasi Kontak',
+      music: 'Pemutar Musik',
+      rawjson: 'Editor Raw JSON'
+    };
+
+    // Load Initial Data
+    async function loadInitialData() {
+      const draft = localStorage.getItem(DRAFT_KEY);
+      if (draft) {
+        try {
+          CMS_DATA = JSON.parse(draft);
+          showSaveStatus('Draft tersimpan di browser', true);
+          populateForm();
+          return;
+        } catch (e) {
+          console.error('Invalid draft JSON:', e);
+        }
+      }
+
+      try {
+        const res = await fetch(DATA_URL + '?t=' + Date.now());
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        CMS_DATA = await res.json();
+        showSaveStatus('Data sesuai dengan file asli', false);
+        populateForm();
+      } catch (err) {
+        console.error('Failed to load content.json:', err);
+        showToast('Gagal memuat data/content.json', 'error');
+      }
+    }
+
+    // Persist Draft
+    function persistDraft() {
+      try {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(CMS_DATA, null, 2));
+        showSaveStatus('Draft tersimpan di browser', true);
+        showToast('Perubahan tersimpan sebagai draft');
+        updateRawJsonView();
+      } catch (err) {
+        console.error('Failed to save draft:', err);
+      }
+    }
+
+    function triggerAutoSave() {
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(persistDraft, 300);
+    }
+
+    function showSaveStatus(text, isDraft) {
+      const el = document.getElementById('saveStatus');
+      if (!el) return;
+      if (isDraft) {
+        el.className = 'text-xs text-amber-400 flex items-center gap-2';
+        el.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400"></span> ' + text;
+      } else {
+        el.className = 'text-xs text-emerald-400 flex items-center gap-2';
+        el.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span> ' + text;
+      }
+    }
+
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('adminToast');
+      const toastMsg = document.getElementById('toastMsg');
+      const toastIcon = document.getElementById('toastIcon');
+
+      toastMsg.textContent = msg;
+      toastIcon.className = `w-2 h-2 rounded-full ${type === 'error' ? 'bg-red-400' : (type === 'amber' ? 'bg-amber-400' : 'bg-emerald-400')}`;
+
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    function updateField(path, value) {
+      const parts = path.split('.');
+      let current = CMS_DATA;
+      for (let i = 0; i < parts.length - 1; i++) {
+        if (!current[parts[i]]) current[parts[i]] = {};
+        current = current[parts[i]];
+      }
+      current[parts[parts.length - 1]] = value;
+      triggerAutoSave();
+    }
+
+    function updateContactPhone(val) {
+      updateField('contact.phone', val);
+      const raw = val.replace(/[^0-9]/g, '');
+      const tel = raw.startsWith('0') ? '+62' + raw.substring(1) : (raw.startsWith('62') ? '+' + raw : '+' + raw);
+      document.getElementById('cont-phoneTel').value = 'tel:' + tel;
+      updateField('contact.phoneTel', 'tel:' + tel);
+    }
+
+    function updateContactEmail(val) {
+      updateField('contact.email', val);
+      document.getElementById('cont-emailMailto').value = 'mailto:' + val;
+      updateField('contact.emailMailto', 'mailto:' + val);
+    }
+
+    function updateAvatarPreview(src) {
+      updateField('profile.avatar', src);
+      document.getElementById('avatarPreview').src = src;
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+      document.querySelectorAll('.sidebar-btn').forEach(btn => btn.classList.remove('active'));
+
+      const activeSection = document.getElementById('panel-' + tabId);
+      const activeBtn = document.getElementById('tab-btn-' + tabId);
+      const titleEl = document.getElementById('activeTabTitle');
+
+      if (activeSection) activeSection.classList.remove('hidden');
+      if (activeBtn) activeBtn.classList.add('active');
+      if (titleEl && tabTitles[tabId]) titleEl.textContent = tabTitles[tabId];
+
+      if (tabId === 'rawjson') {
+        updateRawJsonView();
+      }
+    }
+
+    function populateForm() {
+      // 1. Profile
+      const p = CMS_DATA.profile || {};
+      document.getElementById('prof-name').value = p.name || '';
+      document.getElementById('prof-monogram').value = p.monogram || 'Dv';
+      document.getElementById('prof-role').value = p.role || '';
+      document.getElementById('prof-statusBadge').value = p.statusBadge || '';
+      document.getElementById('prof-field').value = p.field || '';
+      document.getElementById('prof-semester').value = p.semester || '';
+      document.getElementById('prof-gpa').value = p.gpa || '';
+      document.getElementById('prof-location').value = p.location || '';
+      document.getElementById('prof-avatar').value = p.avatar || '';
+      document.getElementById('avatarPreview').src = p.avatar || '';
+      document.getElementById('prof-shortBio').value = p.shortBio || '';
+      document.getElementById('prof-about').value = p.about || '';
+
+      // 2. Stats
+      const s = CMS_DATA.stats || {};
+      document.getElementById('stats-semesters').value = s.semesters || 5;
+      document.getElementById('stats-certificates').value = s.certificates || 3;
+      document.getElementById('stats-toeicScore').value = s.toeicScore || 600;
+      document.getElementById('stats-skillAreas').value = s.skillAreas || '3+';
+
+      // 3. Education
+      const e = CMS_DATA.education || {};
+      document.getElementById('edu-institution').value = e.institution || '';
+      document.getElementById('edu-program').value = e.program || '';
+      document.getElementById('edu-semesterBadge').value = e.semesterBadge || '';
+      document.getElementById('edu-periodBadge').value = e.periodBadge || '';
+      renderCourseworkList();
+
+      // 4. Expertise
+      renderDomainsList();
+      renderTechProfList();
+      renderCertsList();
+      renderLangsList();
+
+      // 5. Achievements
+      renderAchievementsList();
+      const intern = (CMS_DATA.achievements && CMS_DATA.achievements.internship) || {};
+      document.getElementById('ach-internTitle').value = intern.title || '';
+      document.getElementById('ach-internDesc').value = intern.description || '';
+      document.getElementById('ach-internCtaText').value = intern.ctaText || '';
+      document.getElementById('ach-internCtaLink').value = intern.ctaLink || '';
+
+      // 6. Gallery
+      renderGalleryList();
+
+      // 7. Contact
+      const c = CMS_DATA.contact || {};
+      document.getElementById('cont-phone').value = c.phone || '';
+      document.getElementById('cont-phoneTel').value = c.phoneTel || '';
+      document.getElementById('cont-email').value = c.email || '';
+      document.getElementById('cont-emailMailto').value = c.emailMailto || '';
+      document.getElementById('cont-location').value = c.location || '';
+      document.getElementById('cont-status').value = c.status || '';
+      document.getElementById('cont-responseTime').value = c.responseTime || '';
+
+      // 8. Playlist
+      renderPlaylistList();
+
+      updateRawJsonView();
+    }
+
+    // Dynamic List Functions
+    function renderCourseworkList() {
+      const container = document.getElementById('courseworkListContainer');
+      const list = (CMS_DATA.education && CMS_DATA.education.coursework) || [];
+      container.innerHTML = list.map((item, idx) => `
+        <div class="flex items-center gap-2">
+          <input type="text" class="w-16 admin-input font-mono text-xs" value="${item.id || ''}" oninput="updateCourseworkItem(${idx}, 'id', this.value)" placeholder="01" />
+          <input type="text" class="flex-1 admin-input text-xs" value="${item.name || ''}" oninput="updateCourseworkItem(${idx}, 'name', this.value)" placeholder="Nama Mata Kuliah" />
+          <button type="button" onclick="deleteCourseworkItem(${idx})" class="text-xs text-muted hover:text-red-400 p-1">Hapus</button>
+        </div>
+      `).join('');
+    }
+
+    function addCourseworkItem() {
+      if (!CMS_DATA.education) CMS_DATA.education = {};
+      if (!Array.isArray(CMS_DATA.education.coursework)) CMS_DATA.education.coursework = [];
+      const nextId = String(CMS_DATA.education.coursework.length + 1).padStart(2, '0');
+      CMS_DATA.education.coursework.push({ id: nextId, name: 'Mata Kuliah Baru' });
+      renderCourseworkList();
+      triggerAutoSave();
+    }
+
+    function updateCourseworkItem(idx, field, val) {
+      CMS_DATA.education.coursework[idx][field] = val;
+      triggerAutoSave();
+    }
+
+    function deleteCourseworkItem(idx) {
+      CMS_DATA.education.coursework.splice(idx, 1);
+      renderCourseworkList();
+      triggerAutoSave();
+    }
+
+    function renderDomainsList() {
+      const container = document.getElementById('domainsContainer');
+      const domains = (CMS_DATA.expertise && CMS_DATA.expertise.domains) || [];
+      container.innerHTML = domains.map((dom, dIdx) => `
+        <div class="border border-[#2E2E30] bg-[#141416] p-4 rounded space-y-3">
+          <div class="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label class="admin-label">Judul Domain</label>
+              <input type="text" class="admin-input text-xs" value="${dom.title || ''}" oninput="updateDomain(${dIdx}, 'title', this.value)" />
+            </div>
+            <div>
+              <label class="admin-label">Deskripsi Ringkas</label>
+              <input type="text" class="admin-input text-xs" value="${dom.description || ''}" oninput="updateDomain(${dIdx}, 'description', this.value)" />
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <label class="admin-label mb-0">Daftar Poin Keahlian</label>
+              <button type="button" onclick="addDomainSkill(${dIdx})" class="text-xs text-muted hover:text-white">+ Poin</button>
+            </div>
+            <div class="space-y-2">
+              ${(dom.skills || []).map((sk, sIdx) => `
+                <div class="flex items-center gap-2">
+                  <input type="text" class="admin-input py-1 text-xs" value="${sk}" oninput="updateDomainSkill(${dIdx}, ${sIdx}, this.value)" />
+                  <button type="button" onclick="deleteDomainSkill(${dIdx}, ${sIdx})" class="text-xs text-muted hover:text-red-400 p-1">✕</button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function updateDomain(dIdx, field, val) {
+      CMS_DATA.expertise.domains[dIdx][field] = val;
+      triggerAutoSave();
+    }
+
+    function updateDomainSkill(dIdx, sIdx, val) {
+      CMS_DATA.expertise.domains[dIdx].skills[sIdx] = val;
+      triggerAutoSave();
+    }
+
+    function addDomainSkill(dIdx) {
+      if (!Array.isArray(CMS_DATA.expertise.domains[dIdx].skills)) {
+        CMS_DATA.expertise.domains[dIdx].skills = [];
+      }
+      CMS_DATA.expertise.domains[dIdx].skills.push('Poin Keahlian Baru');
+      renderDomainsList();
+      triggerAutoSave();
+    }
+
+    function deleteDomainSkill(dIdx, sIdx) {
+      CMS_DATA.expertise.domains[dIdx].skills.splice(sIdx, 1);
+      renderDomainsList();
+      triggerAutoSave();
+    }
+
+    function renderTechProfList() {
+      const container = document.getElementById('techProfContainer');
+      const list = (CMS_DATA.expertise && CMS_DATA.expertise.technicalProficiency) || [];
+      container.innerHTML = list.map((item, idx) => `
+        <div class="flex items-center gap-3">
+          <input type="text" class="flex-1 admin-input py-1 text-xs" value="${item.name || ''}" oninput="updateTechProfItem(${idx}, 'name', this.value)" placeholder="Nama Skill" />
+          <div class="flex items-center gap-2 w-36">
+            <input type="range" min="0" max="100" class="w-24 accent-white" value="${item.percent || 80}" oninput="updateTechProfItem(${idx}, 'percent', +this.value); this.nextElementSibling.value = this.value + '%'" />
+            <output class="w-8 font-mono text-xs text-white">${item.percent || 80}%</output>
+          </div>
+          <button type="button" onclick="deleteTechProfItem(${idx})" class="text-xs text-muted hover:text-red-400 p-1">Hapus</button>
+        </div>
+      `).join('');
+    }
+
+    function addTechProficiencyItem() {
+      if (!CMS_DATA.expertise) CMS_DATA.expertise = {};
+      if (!Array.isArray(CMS_DATA.expertise.technicalProficiency)) CMS_DATA.expertise.technicalProficiency = [];
+      CMS_DATA.expertise.technicalProficiency.push({ name: 'Skill Baru', percent: 80 });
+      renderTechProfList();
+      triggerAutoSave();
+    }
+
+    function updateTechProfItem(idx, field, val) {
+      CMS_DATA.expertise.technicalProficiency[idx][field] = val;
+      triggerAutoSave();
+    }
+
+    function deleteTechProfItem(idx) {
+      CMS_DATA.expertise.technicalProficiency.splice(idx, 1);
+      renderTechProfList();
+      triggerAutoSave();
+    }
+
+    function renderCertsList() {
+      const container = document.getElementById('certsContainer');
+      const list = (CMS_DATA.expertise && CMS_DATA.expertise.certifications) || [];
+      container.innerHTML = list.map((item, idx) => `
+        <div class="border border-[#2E2E30] bg-[#141416] p-3 rounded space-y-2 relative">
+          <button type="button" onclick="deleteCertItem(${idx})" class="absolute top-2 right-2 text-xs text-muted hover:text-red-400">Hapus</button>
+          <input type="text" class="admin-input py-1 text-xs" value="${item.title || ''}" oninput="updateCertItem(${idx}, 'title', this.value)" placeholder="Nama Sertifikasi" />
+          <div class="grid grid-cols-2 gap-2">
+            <input type="text" class="admin-input py-1 text-xs" value="${item.issuer || ''}" oninput="updateCertItem(${idx}, 'issuer', this.value)" placeholder="Penerbit" />
+            <input type="text" class="admin-input py-1 text-xs font-mono" value="${item.score || ''}" oninput="updateCertItem(${idx}, 'score', this.value)" placeholder="Skor / Tahun" />
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addCertItem() {
+      if (!CMS_DATA.expertise) CMS_DATA.expertise = {};
+      if (!Array.isArray(CMS_DATA.expertise.certifications)) CMS_DATA.expertise.certifications = [];
+      CMS_DATA.expertise.certifications.push({ title: 'Sertifikasi Baru', issuer: 'Penerbit', score: 'Skor' });
+      renderCertsList();
+      triggerAutoSave();
+    }
+
+    function updateCertItem(idx, field, val) {
+      CMS_DATA.expertise.certifications[idx][field] = val;
+      triggerAutoSave();
+    }
+
+    function deleteCertItem(idx) {
+      CMS_DATA.expertise.certifications.splice(idx, 1);
+      renderCertsList();
+      triggerAutoSave();
+    }
+
+    function renderLangsList() {
+      const container = document.getElementById('langsContainer');
+      const list = (CMS_DATA.expertise && CMS_DATA.expertise.languages) || [];
+      container.innerHTML = list.map((item, idx) => `
+        <div class="flex items-center gap-2">
+          <input type="text" class="w-1/3 admin-input py-1 text-xs" value="${item.name || ''}" oninput="updateLangItem(${idx}, 'name', this.value)" placeholder="Bahasa" />
+          <input type="text" class="w-1/3 admin-input py-1 text-xs" value="${item.level || ''}" oninput="updateLangItem(${idx}, 'level', this.value)" placeholder="Tingkat Kemampuan" />
+          <input type="range" min="0" max="100" class="w-1/3 accent-white" value="${item.percent || 70}" oninput="updateLangItem(${idx}, 'percent', +this.value)" />
+          <button type="button" onclick="deleteLangItem(${idx})" class="text-xs text-muted hover:text-red-400 p-1">✕</button>
+        </div>
+      `).join('');
+    }
+
+    function addLangItem() {
+      if (!CMS_DATA.expertise) CMS_DATA.expertise = {};
+      if (!Array.isArray(CMS_DATA.expertise.languages)) CMS_DATA.expertise.languages = [];
+      CMS_DATA.expertise.languages.push({ name: 'Bahasa Baru', level: 'Menengah', percent: 70 });
+      renderLangsList();
+      triggerAutoSave();
+    }
+
+    function updateLangItem(idx, field, val) {
+      CMS_DATA.expertise.languages[idx][field] = val;
+      triggerAutoSave();
+    }
+
+    function deleteLangItem(idx) {
+      CMS_DATA.expertise.languages.splice(idx, 1);
+      renderLangsList();
+      triggerAutoSave();
+    }
+
+    function renderAchievementsList() {
+      const container = document.getElementById('achievementsListContainer');
+      const list = (CMS_DATA.achievements && CMS_DATA.achievements.items) || [];
+
+      if (list.length === 0) {
+        container.innerHTML = '<p class="text-xs text-muted text-center py-4">Belum ada item pencapaian.</p>';
+        return;
+      }
+
+      container.innerHTML = list.map((item, idx) => `
+        <div class="border border-[#2E2E30] bg-[#141416] p-4 rounded space-y-3">
+          <div class="flex items-center justify-between border-b border-[#2E2E30] pb-2">
+            <span class="text-xs font-mono font-semibold text-white">#${idx + 1}: ${item.title || 'Tanpa Judul'}</span>
+            <button type="button" onclick="deleteAchievementItem(${idx})" class="text-xs text-red-400 hover:underline">Hapus</button>
+          </div>
+          <div class="grid gap-3 sm:grid-cols-3">
+            <div>
+              <label class="admin-label">Kategori</label>
+              <select class="admin-input py-1 text-xs" onchange="updateAchievementItem(${idx}, 'category', this.value)">
+                <option value="Competition" ${item.category === 'Competition' ? 'selected' : ''}>Kompetisi</option>
+                <option value="Training" ${item.category === 'Training' ? 'selected' : ''}>Sertifikasi / Pelatihan</option>
+              </select>
+            </div>
+            <div>
+              <label class="admin-label">Label Penghargaan</label>
+              <input type="text" class="admin-input py-1 text-xs" value="${item.badge || ''}" oninput="updateAchievementItem(${idx}, 'badge', this.value)" placeholder="Juara 3 / Finalis" />
+            </div>
+            <div>
+              <label class="admin-label">Waktu / Periode</label>
+              <input type="text" class="admin-input py-1 text-xs font-mono" value="${item.period || ''}" oninput="updateAchievementItem(${idx}, 'period', this.value)" placeholder="2025" />
+            </div>
+          </div>
+          <div>
+            <label class="admin-label">Nama Kegiatan / Kompetisi</label>
+            <input type="text" class="admin-input py-1 text-xs" value="${item.title || ''}" oninput="updateAchievementItem(${idx}, 'title', this.value)" />
+          </div>
+          <div>
+            <label class="admin-label">Penyelenggara</label>
+            <input type="text" class="admin-input py-1 text-xs" value="${item.organizer || ''}" oninput="updateAchievementItem(${idx}, 'organizer', this.value)" />
+          </div>
+          <div>
+            <label class="admin-label">Deskripsi Ringkas</label>
+            <textarea rows="2" class="admin-input py-1 text-xs" oninput="updateAchievementItem(${idx}, 'description', this.value)">${item.description || ''}</textarea>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addAchievementItem() {
+      if (!CMS_DATA.achievements) CMS_DATA.achievements = {};
+      if (!Array.isArray(CMS_DATA.achievements.items)) CMS_DATA.achievements.items = [];
+      const newId = 'item-' + (CMS_DATA.achievements.items.length + 1);
+      CMS_DATA.achievements.items.unshift({
+        id: newId,
+        category: 'Competition',
+        badge: 'Award',
+        title: 'Kompetisi Baru',
+        organizer: 'Lembaga Penyelenggara',
+        period: '2026',
+        description: 'Deskripsi singkat pencapaian.'
+      });
+      renderAchievementsList();
+      triggerAutoSave();
+    }
+
+    function updateAchievementItem(idx, field, val) {
+      CMS_DATA.achievements.items[idx][field] = val;
+      triggerAutoSave();
+    }
+
+    function deleteAchievementItem(idx) {
+      if (confirm('Apakah Anda yakin ingin menghapus item ini?')) {
+        CMS_DATA.achievements.items.splice(idx, 1);
+        renderAchievementsList();
+        triggerAutoSave();
+      }
+    }
+
+    function renderGalleryList() {
+      const container = document.getElementById('galleryListContainer');
+      const list = CMS_DATA.gallery || [];
+      container.innerHTML = list.map((photo, idx) => `
+        <div class="border border-[#2E2E30] bg-[#141416] p-3 rounded space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-muted font-mono">Foto #${idx + 1}</span>
+            <button type="button" onclick="deleteGalleryItem(${idx})" class="text-xs text-red-400 hover:underline">Hapus</button>
+          </div>
+          <div class="h-32 w-full rounded overflow-hidden bg-[#0B0B0C] border border-[#2E2E30]">
+            <img src="${photo.src || ''}" alt="${photo.alt || ''}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/141416/9A9A9E?text=Foto'" />
+          </div>
+          <div>
+            <label class="admin-label">Path Gambar</label>
+            <input type="text" class="admin-input py-1 text-xs font-mono" value="${photo.src || ''}" oninput="updateGalleryItem(${idx}, 'src', this.value)" placeholder="images/foto.jpg" />
+          </div>
+          <div>
+            <label class="admin-label">Judul Foto (Caption)</label>
+            <input type="text" class="admin-input py-1 text-xs" value="${photo.caption || ''}" oninput="updateGalleryItem(${idx}, 'caption', this.value)" />
+          </div>
+          <div>
+            <label class="admin-label">Deskripsi Alt</label>
+            <input type="text" class="admin-input py-1 text-xs" value="${photo.alt || ''}" oninput="updateGalleryItem(${idx}, 'alt', this.value)" />
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addGalleryItem() {
+      if (!Array.isArray(CMS_DATA.gallery)) CMS_DATA.gallery = [];
+      CMS_DATA.gallery.push({
+        src: 'images/photo-portrait.jpg',
+        caption: 'Judul Foto Baru',
+        alt: 'Deskripsi foto'
+      });
+      renderGalleryList();
+      triggerAutoSave();
+    }
+
+    function updateGalleryItem(idx, field, val) {
+      CMS_DATA.gallery[idx][field] = val;
+      triggerAutoSave();
+    }
+
+    function deleteGalleryItem(idx) {
+      CMS_DATA.gallery.splice(idx, 1);
+      renderGalleryList();
+      triggerAutoSave();
+    }
+
+    function renderPlaylistList() {
+      const container = document.getElementById('playlistContainer');
+      const list = CMS_DATA.playlist || [];
+      container.innerHTML = list.map((track, idx) => `
+        <div class="border border-[#2E2E30] bg-[#141416] p-4 rounded space-y-3">
+          <div class="flex items-center justify-between border-b border-[#2E2E30] pb-2">
+            <span class="text-xs font-mono text-white">#${idx + 1}: ${track.title || 'Lagu'}</span>
+            <button type="button" onclick="deletePlaylistItem(${idx})" class="text-xs text-red-400 hover:underline">Hapus</button>
+          </div>
+          <div class="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label class="admin-label">Judul Lagu</label>
+              <input type="text" class="admin-input py-1 text-xs" value="${track.title || ''}" oninput="updatePlaylistItem(${idx}, 'title', this.value)" />
+            </div>
+            <div>
+              <label class="admin-label">Penyanyi / Artis</label>
+              <input type="text" class="admin-input py-1 text-xs" value="${track.artist || ''}" oninput="updatePlaylistItem(${idx}, 'artist', this.value)" />
+            </div>
+          </div>
+          <div class="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label class="admin-label">Tag Genre / Mood</label>
+              <input type="text" class="admin-input py-1 text-xs" value="${track.tag || ''}" oninput="updatePlaylistItem(${idx}, 'tag', this.value)" />
+            </div>
+            <div>
+              <label class="admin-label">Kode Singkat Label Vinyl</label>
+              <input type="text" maxlength="4" class="admin-input py-1 text-xs font-mono uppercase" value="${track.coverCode || ''}" oninput="updatePlaylistItem(${idx}, 'coverCode', this.value.toUpperCase())" />
+            </div>
+          </div>
+          <div>
+            <label class="admin-label">Path File Audio (MP3)</label>
+            <input type="text" class="admin-input py-1 text-xs font-mono" value="${track.file || ''}" oninput="updatePlaylistItem(${idx}, 'file', this.value)" />
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addPlaylistItem() {
+      if (!Array.isArray(CMS_DATA.playlist)) CMS_DATA.playlist = [];
+      CMS_DATA.playlist.push({
+        title: 'Lagu Baru',
+        artist: "Bima's Study Session",
+        tag: 'Focus Mood',
+        file: 'sounds/A_Night_To_Remember.mp3',
+        coverCode: 'SONG'
+      });
+      renderPlaylistList();
+      triggerAutoSave();
+    }
+
+    function updatePlaylistItem(idx, field, val) {
+      CMS_DATA.playlist[idx][field] = val;
+      triggerAutoSave();
+    }
+
+    function deletePlaylistItem(idx) {
+      CMS_DATA.playlist.splice(idx, 1);
+      renderPlaylistList();
+      triggerAutoSave();
+    }
+
+    // Export, Import, Raw JSON
+    function updateRawJsonView() {
+      const textarea = document.getElementById('rawJsonTextarea');
+      if (textarea) textarea.value = JSON.stringify(CMS_DATA, null, 2);
+    }
+
+    function applyRawJSON() {
+      const textarea = document.getElementById('rawJsonTextarea');
+      try {
+        const parsed = JSON.parse(textarea.value);
+        CMS_DATA = parsed;
+        persistDraft();
+        populateForm();
+        showToast('JSON diterapkan');
+      } catch (err) {
+        alert('Format JSON salah: ' + err.message);
+      }
+    }
+
+    function copyRawJSON() {
+      const textarea = document.getElementById('rawJsonTextarea');
+      navigator.clipboard.writeText(textarea.value);
+      showToast('JSON disalin ke clipboard');
+    }
+
+    function downloadJSON() {
+      const jsonStr = JSON.stringify(CMS_DATA, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'content.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('File content.json berhasil diunduh');
+    }
+
+    function importJSONFile(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        try {
+          CMS_DATA = JSON.parse(event.target.result);
+          persistDraft();
+          populateForm();
+          showToast('File JSON diimpor');
+        } catch (err) {
+          alert('Gagal membaca JSON: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    async function confirmReset() {
+      if (!confirm('Reset semua draft dan kembalikan ke data asli?')) return;
+      localStorage.removeItem(DRAFT_KEY);
+      await loadInitialData();
+      showToast('Draft lokal direset', 'amber');
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadInitialData();
+      const hash = window.location.hash.replace('#', '');
+      if (hash && document.getElementById('panel-' + hash)) {
+        switchTab(hash);
+      }
+    });
+  </script>
+</body>
+
+</html>

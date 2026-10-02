@@ -1,0 +1,215 @@
+{
+  "profile": {
+    "name": "Bima Arya Dewa",
+    "monogram": "Dv",
+    "role": "Computerized Accounting Student",
+    "status": "Studying",
+    "statusBadge": "Open to internship opportunities",
+    "field": "Computerized Accounting",
+    "semester": "5th",
+    "gpa": "3.7",
+    "location": "Semarang, Indonesia",
+    "avatar": "images/photo-portrait.jpg",
+    "shortBio": "Computerized Accounting Student, focused on accurate financial reporting, reconciliation, and ERP-supported data processing.",
+    "headlineKeywords": "Financial Reporting · Data Reconciliation · ERP Systems",
+    "about": "Semester 5 student in Computerized Accounting at Politeknik Negeri Semarang with a strong foundation in financial reporting, expense verification, and data reconciliation. Skilled in Microsoft Excel, ERP systems, and basic programming to support accurate and efficient financial data processing. Detail-oriented, organized, and capable of handling multiple tasks while ensuring data consistency and timely reporting. Interested in contributing to organizations focused on sustainability and social impact."
+  },
+  "stats": {
+    "semesters": 5,
+    "certificates": 3,
+    "toeicScore": 600,
+    "skillAreas": "3+"
+  },
+  "education": {
+    "institution": "Politeknik Negeri Semarang",
+    "program": "D-IV Computerized Accounting",
+    "semesterBadge": "Semester 5",
+    "gpaBadge": "GPA 3.7",
+    "periodBadge": "2024 - Sekarang",
+    "coursework": [
+      { "id": "01", "name": "Financial Accounting" },
+      { "id": "02", "name": "Accounting Information Systems" },
+      { "id": "03", "name": "Cost Accounting" },
+      { "id": "04", "name": "Database Systems" },
+      { "id": "05", "name": "Business Process & ERP" }
+    ]
+  },
+  "expertise": {
+    "domains": [
+      {
+        "id": "accounting-finance",
+        "title": "Accounting & Finance",
+        "description": "Foundation in core accounting processes: from recording transactions to preparing organized financial reports and verifying expense documentation.",
+        "skills": [
+          "Financial recording & reporting",
+          "Expense verification",
+          "Data reconciliation",
+          "Document organization & archiving"
+        ]
+      },
+      {
+        "id": "technical-skills",
+        "title": "Technical Skills",
+        "description": "Hands-on with spreadsheets, ERP platforms, and basic programming to support accurate, efficient, and consistent financial data processing.",
+        "skills": [
+          "Microsoft Excel (data entry, formulas, data organization)",
+          "ERP Systems",
+          "Basic Programming (SQL / Python / simple logic)",
+          "Data import/export & system consistency"
+        ]
+      },
+      {
+        "id": "soft-skills",
+        "title": "Soft Skills",
+        "description": "Detail-oriented and deadline-driven, with strong communication habits developed through team collaboration during coursework and projects.",
+        "skills": [
+          "Attention to detail",
+          "Time management & deadline-oriented",
+          "Communication & teamwork",
+          "Organized documentation"
+        ]
+      },
+      {
+        "id": "coursework",
+        "title": "Coursework",
+        "description": "Relevant academic coursework covering the full accounting cycle, information systems, and business process integration through ERP.",
+        "skills": [
+          "Financial Accounting",
+          "Accounting Information Systems",
+          "Cost Accounting",
+          "Database Systems",
+          "Business Process & ERP"
+        ]
+      }
+    ],
+    "technicalProficiency": [
+      { "name": "Microsoft Excel", "percent": 90 },
+      { "name": "Financial Reporting", "percent": 85 },
+      { "name": "Data Reconciliation", "percent": 85 },
+      { "name": "ERP Systems", "percent": 80 },
+      { "name": "SQL / Basic Programming", "percent": 75 }
+    ],
+    "certifications": [
+      {
+        "title": "TOEIC (Test of English for International Communication)",
+        "issuer": "ETS",
+        "score": "Score: 600"
+      }
+    ],
+    "languages": [
+      { "name": "Indonesian", "level": "Native", "percent": 100 },
+      { "name": "English", "level": "Intermediate", "percent": 65 }
+    ]
+  },
+  "achievements": {
+    "items": [
+      {
+        "id": "item-1",
+        "category": "Competition",
+        "badge": "Finalist",
+        "title": "National Youth Accounting Competition “ACCOUNTANT 2026”",
+        "organizer": "Ikatan Akuntan Indonesia (IAI Muda Malang Raya)",
+        "period": "January - February 2026",
+        "description": "Selected as a national finalist after multiple qualifying rounds covering financial accounting theory, case analysis, and applied reporting under time pressure."
+      },
+      {
+        "id": "item-2",
+        "category": "Competition",
+        "badge": "3rd Place",
+        "title": "Dexagon War Competition (CONNECTION 2025)",
+        "organizer": "Himpunan Mahasiswa Akuntansi, Politeknik Negeri Semarang",
+        "period": "November 2025",
+        "description": "Placed third in a multi-stage accounting and business simulation contest judged on accuracy, speed, and the clarity of the final reporting output."
+      },
+      {
+        "id": "item-3",
+        "category": "Competition",
+        "badge": "3rd Place",
+        "title": "Accounting Quiz Competition (Cerdas Cermat Akuntansi / CCA 2025)",
+        "organizer": "Himpunan Mahasiswa Akuntansi, Politeknik Negeri Semarang",
+        "period": "November 2025",
+        "description": "Team-based rapid-response quiz across financial accounting, cost accounting, and accounting information systems fundamentals."
+      },
+      {
+        "id": "item-4",
+        "category": "Training",
+        "badge": "Score 600",
+        "title": "TOEIC: Test of English for International Communication",
+        "organizer": "ETS",
+        "period": "Certification",
+        "description": "Certified intermediate English proficiency for professional and workplace communication contexts."
+      }
+    ],
+    "internship": {
+      "title": "Internship experience",
+      "description": "No internship completed yet. Currently seeking a placement in finance, accounting operations, or data reconciliation, ideally with an organization focused on sustainability and social impact.",
+      "ctaText": "Discuss an opportunity",
+      "ctaLink": "contact.html"
+    }
+  },
+  "gallery": [
+    {
+      "src": "images/photo-portrait.jpg",
+      "alt": "Portrait of Bima Arya Dewa",
+      "caption": "Portrait"
+    },
+    {
+      "src": "images/photo-campus.jpg",
+      "alt": "Politeknik Negeri Semarang campus",
+      "caption": "Campus, Semarang"
+    },
+    {
+      "src": "images/photo-campus2.jpg",
+      "alt": "Politeknik Negeri Semarang Gedung Kuliah Terpadu",
+      "caption": "Gedung Kuliah Terpadu"
+    },
+    {
+      "src": "images/valo.jpg",
+      "alt": "Team project session",
+      "caption": "Team project"
+    },
+    {
+      "src": "images/rc.jpg",
+      "alt": "Anything You Want showcase",
+      "caption": "Anything You Want"
+    },
+    {
+      "src": "images/photo-certificate.jpg",
+      "alt": "Award certificate",
+      "caption": "Award certificate"
+    }
+  ],
+  "contact": {
+    "phone": "0851-1121-7733",
+    "phoneTel": "tel:+6285111217733",
+    "email": "email.bimaaryadewa@gmail.com",
+    "emailMailto": "mailto:email.bimaaryadewa@gmail.com",
+    "location": "Semarang, Central Java, ID",
+    "locationCopy": "Semarang, Central Java, Indonesia",
+    "status": "Currently open to internship opportunities",
+    "responseTime": "Typical response time: within 24 hours on weekdays."
+  },
+  "playlist": [
+    {
+      "title": "A Night To Remember",
+      "artist": "Bima's Study Session",
+      "tag": "Acoustic Focus",
+      "file": "sounds/A_Night_To_Remember.mp3",
+      "coverCode": "ANTR"
+    },
+    {
+      "title": "Flawless",
+      "artist": "Bima's Study Session",
+      "tag": "Chill Tempo",
+      "file": "sounds/Flawless.mp3",
+      "coverCode": "FLWS"
+    },
+    {
+      "title": "The Shining",
+      "artist": "Bima's Study Session",
+      "tag": "Editorial Mood",
+      "file": "sounds/The_Shining.mp3",
+      "coverCode": "SHIN"
+    }
+  ]
+}
